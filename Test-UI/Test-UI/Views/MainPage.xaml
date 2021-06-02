@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Test_UI.Views.MainPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:Test_UI.Views"
+    xmlns:tools="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+    BackgroundColor="WhiteSmoke"
+    Visual="Material">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:UrlConverter x:Key="urlConverter" />
+            <local:HtmlConverter x:Key="htmlConverter" />
+        </ResourceDictionary>
+        <Style TargetType="tools:PancakeView">
+            <Setter Property="VisualStateManager.VisualStateGroups">
+                <VisualStateGroupList>
+                    <VisualStateGroup x:Name="CommonStates">
+                        <VisualState x:Name="Normal" />
+                        <VisualState x:Name="Selected">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor" Value="LightGray" />
+                                <Setter Property="CornerRadius" Value="10,10,10,10" />
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateGroupList>
+            </Setter>
+        </Style>
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="38" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <tools:PancakeView
+                BackgroundGradientEndPoint="0,1"
+                BackgroundGradientStartPoint="0,0"
+                CornerRadius="0,0,100,100">
+                <tools:PancakeView.BackgroundGradientStops>
+                    <tools:GradientStopCollection>
+                        <tools:GradientStop Offset="0" Color="#F2994A" />
+                        <tools:GradientStop Offset="1" Color="#F2C94C" />
+                    </tools:GradientStopCollection>
+                </tools:PancakeView.BackgroundGradientStops>
+                <Label
+                    FontFamily="pomidorko-regular"
+                    FontSize="40"
+                    HorizontalTextAlignment="Center"
+                    Text="Наши новости"
+                    TextColor="White" />
+            </tools:PancakeView>
+            <tools:PancakeView
+                Grid.Row="1"
+                Padding="10"
+                BackgroundColor="WhiteSmoke"
+                HorizontalOptions="FillAndExpand">
+                <CollectionView
+                    x:Name="collectionView"
+                    Margin="10"
+                    ItemsSource="{x:Static Member=local:MainPage.listNews}"
+                    SelectionChanged="OnSelectionChanged"
+                    SelectionMode="Single">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout ItemSpacing="10" Orientation="Vertical" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <tools:PancakeView>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto" />
+                                        <RowDefinition Height="auto" />
+                                        <RowDefinition Height="auto" />
+                                        <RowDefinition Height="1" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto" />
+                                        <ColumnDefinition Width="auto" />
+                                        <ColumnDefinition Width="auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label
+                                        Grid.Row="0"
+                                        Grid.Column="1"
+                                        Margin="10"
+                                        FontSize="Medium"
+                                        HorizontalTextAlignment="Center"
+                                        MaxLines="4"
+                                        Text="{Binding Path=Text, Converter={StaticResource htmlConverter}}"
+                                        TextColor="Black" />
+                                    <Image
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        Margin="10"
+                                        HeightRequest="80"
+                                        Source="{Binding Path=PreviewPath, Converter={StaticResource urlConverter}}"
+                                        VerticalOptions="Center"
+                                        WidthRequest="80" />
+                                    <Label
+                                        Grid.Row="2"
+                                        Grid.ColumnSpan="2"
+                                        HorizontalOptions="End"
+                                        Text="{Binding DateTime, StringFormat='{0:M}'}" />
+                                    <BoxView
+                                        Grid.Row="3"
+                                        Grid.ColumnSpan="2"
+                                        Opacity="0.45"
+                                        Color="#F2994A" />
+                                </Grid>
+                            </tools:PancakeView>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </tools:PancakeView>
+        </Grid>
+    </ContentPage.Content>
+
+</ContentPage>

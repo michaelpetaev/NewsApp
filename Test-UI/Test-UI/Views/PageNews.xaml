@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Test_UI.Views.PageNews"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:Test_UI.Views">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:UrlConverter x:Key="urlConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <StackLayout>
+            <ScrollView Margin="40">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="200" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Label
+                        Grid.Row="0"
+                        FontAttributes="Bold"
+                        FontSize="Medium"
+                        HorizontalTextAlignment="Center"
+                        Text="{Binding Title}" />
+                    <Image
+                        Grid.Row="1"
+                        Margin="10"
+                        HorizontalOptions="Center"
+                        Source="{Binding Path=MainImagePath, Converter={StaticResource urlConverter}}" />
+                    <Label
+                        Grid.Row="2"
+                        HorizontalOptions="Center"
+                        Text="{Binding DateTime, StringFormat='{0:M}'}" />
+                    <Label
+                        Grid.Row="3"
+                        FontSize="Medium"
+                        Text="{Binding Text}"
+                        TextType="Html" />
+                </Grid>
+            </ScrollView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
